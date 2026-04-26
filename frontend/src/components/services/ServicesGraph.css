@@ -1,0 +1,165 @@
+.sgraph {
+  position: relative;
+  width: 500px;
+  height: 500px;
+  flex-shrink: 0;
+}
+
+/* SVG fills container, pointer-events off so nodes are clickable */
+.sgraph__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.sgraph__line {
+  transition: stroke-opacity 0.25s ease, stroke-width 0.25s ease;
+}
+
+/* ─── Center node ────────────────────────────────────────── */
+.sgraph__center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+.sgraph__center-inner {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #08090f;
+  position: relative;
+  overflow: hidden;
+  animation: centerGlow 3s ease-in-out infinite;
+}
+
+@keyframes centerGlow {
+  0%, 100% { box-shadow: 0 0 20px rgba(155,47,255,0.5), 0 0 40px rgba(255,32,128,0.2); }
+  50%       { box-shadow: 0 0 40px rgba(155,47,255,0.9), 0 0 80px rgba(255,32,128,0.45); }
+}
+
+.sgraph__center-logo {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  animation: logoBreath 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 10px rgba(155,47,255,0.6));
+  position: relative;
+  z-index: 1;
+}
+
+/* Spinning gradient ring around center */
+.sgraph__center-inner::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, #FF2080, #9B2FFF, #2D8FFF, #9B2FFF, #FF2080);
+  z-index: 0;
+  animation: orbitSpin 3s linear infinite;
+}
+
+/* Inner mask to create ring effect */
+.sgraph__center-inner::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border-radius: 50%;
+  background: #08090f;
+  z-index: 0;
+}
+
+/* LogoMark SVG sits directly inside .sgraph__center-inner */
+
+/* ─── Service nodes ──────────────────────────────────────── */
+.sgraph__node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: transform var(--transition);
+}
+
+.sgraph__node:hover,
+.sgraph__node.active {
+  transform: translate(-50%, -50%) scale(1.12);
+}
+
+.sgraph__node-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  transition: border-color var(--transition), color var(--transition), box-shadow var(--transition), background var(--transition);
+}
+.sgraph__node-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.sgraph__node.active .sgraph__node-icon {
+  border-color: var(--grad-mid);
+  color: var(--grad-mid);
+  background: var(--surface-hover);
+  box-shadow: 0 0 20px var(--glow-purple);
+}
+
+.sgraph__node-title {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-align: center;
+  white-space: nowrap;
+  transition: color var(--transition);
+  letter-spacing: 0.02em;
+}
+
+.sgraph__node.active .sgraph__node-title {
+  color: var(--text-primary);
+}
+
+/* Tooltip on hover */
+.sgraph__node-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  max-width: 180px;
+  text-align: center;
+  white-space: normal;
+  z-index: 10;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  pointer-events: none;
+  animation: scaleIn 0.18s ease forwards;
+}
+
+/* Adjust tooltips that would overflow top */
+.sgraph__node:nth-child(-n+3) .sgraph__node-tooltip {
+  bottom: auto;
+  top: calc(100% + 8px);
+}
