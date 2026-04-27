@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { LangProvider } from './i18n/LangContext';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import Hero from './components/home/Hero';
@@ -18,16 +19,18 @@ function App() {
   const toggleTheme = () => setTheme(t => t === 'dark' ? 'light' : 'dark');
 
   return (
-    <div className="app">
-      <Navbar theme={theme} toggleTheme={toggleTheme} />
-      <main>
-        <Hero />
-        <About />
-        <Services />
-        <References />
-      </main>
-      <Footer />
-    </div>
+    <LangProvider>
+      <div className="app">
+        <Navbar theme={theme} toggleTheme={toggleTheme} />
+        <main>
+          <Hero />
+          <About />
+          <Services />
+          <References />
+        </main>
+        <Footer />
+      </div>
+    </LangProvider>
   );
 }
 

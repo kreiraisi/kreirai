@@ -1,13 +1,21 @@
+import { useLang } from '../../i18n/LangContext';
+import { t } from '../../i18n/translations';
 import './Footer.css';
 
-const navLinks = [
-  { label: 'Home',       href: '#home' },
-  { label: 'About',      href: '#about' },
-  { label: 'Services',   href: '#services' },
-  { label: 'References', href: '#references' },
-];
+const navHrefs = ['#home', '#about', '#services', '#references'];
 
 export default function Footer() {
+  const { lang } = useLang();
+  const nav = t[lang].nav;
+  const f = t[lang].footer;
+
+  const navLinks = [
+    { label: nav.home,       href: navHrefs[0] },
+    { label: nav.about,      href: navHrefs[1] },
+    { label: nav.services,   href: navHrefs[2] },
+    { label: nav.references, href: navHrefs[3] },
+  ];
+
   return (
     <footer className="footer">
       <div className="footer__top-line" />
@@ -16,9 +24,7 @@ export default function Footer() {
           <a href="#home" className="footer__logo-link">
             <img className="footer__logo-img" src="/darklogo.png" alt="Kresai" />
           </a>
-          <p className="footer__tagline">
-            Intelligence, engineered for growth.
-          </p>
+          <p className="footer__tagline">{f.tagline}</p>
         </div>
 
         <nav className="footer__nav" aria-label="Footer">
@@ -32,10 +38,10 @@ export default function Footer() {
 
       <div className="container footer__bottom">
         <span className="footer__copy">
-          &copy; {new Date().getFullYear()} Kresai Intelligence. All rights reserved.
+          &copy; {new Date().getFullYear()} {f.copyright}
         </span>
         <span className="footer__built gradient-text">
-          Built with AI &amp; precision
+          {f.builtWith}
         </span>
       </div>
     </footer>

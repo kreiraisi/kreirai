@@ -1,12 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useScroll } from '../../hooks/useScroll';
+import { useLang } from '../../i18n/LangContext';
+import { t } from '../../i18n/translations';
 import './Navbar.css';
 
-const navLinks = [
-  { label: 'Home',       href: '#home' },
-  { label: 'About',      href: '#about' },
-  { label: 'Services',   href: '#services' },
-  { label: 'References', href: '#references' },
+const LANGS = [
+  { code: 'en', flagCode: 'gb', label: 'English' },
+  { code: 'sl', flagCode: 'si', label: 'Slovenščina' },
+  { code: 'de', flagCode: 'de', label: 'Deutsch' },
+  { code: 'hr', flagCode: 'hr', label: 'Hrvatski' },
 ];
 
 const SunIcon = () => (
@@ -29,12 +31,69 @@ const MoonIcon = () => (
   </svg>
 );
 
+function LanguageDropdown() {
+  const { lang, setLang } = useLang();
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const handler = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [open]);
+
+  const current = LANGS.find(l => l.code === lang);
+
+  return (
+    <div className="lang-dropdown" ref={ref}>
+      <button
+        className="lang-btn"
+        onClick={() => setOpen(o => !o)}
+        aria-label="Select language"
+        aria-expanded={open}
+      >
+        <img className="lang-btn__flag" src={`https://flagcdn.com/20x15/${current.flagCode}.png`} alt={current.label} />
+        <span className="lang-btn__code">{current.code.toUpperCase()}</span>
+        <svg className={`lang-btn__arrow ${open ? 'open' : ''}`} width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+          <polyline points="2 3.5 5 6.5 8 3.5"/>
+        </svg>
+      </button>
+
+      <div className={`lang-panel ${open ? 'open' : ''}`}>
+        {LANGS.map(l => (
+          <button
+            key={l.code}
+            className={`lang-option ${lang === l.code ? 'active' : ''}`}
+            onClick={() => { setLang(l.code); setOpen(false); }}
+          >
+            <img className="lang-option__flag" src={`https://flagcdn.com/20x15/${l.flagCode}.png`} alt={l.label} />
+            <span className="lang-option__code">{l.code.toUpperCase()}</span>
+            <span className="lang-option__label">{l.label}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function Navbar({ theme, toggleTheme }) {
+  const { lang } = useLang();
+  const nav = t[lang].nav;
   const [isOpen, setIsOpen] = useState(false);
   const scrollY = useScroll();
   const scrolled = scrollY > 20;
 
   const closeMenu = () => setIsOpen(false);
+
+  const navLinks = [
+    { label: nav.home,       href: '#home' },
+    { label: nav.about,      href: '#about' },
+    { label: nav.services,   href: '#services' },
+    { label: nav.references, href: '#references' },
+  ];
 
   useEffect(() => {
     if (isOpen) {
@@ -51,9 +110,20 @@ export default function Navbar({ theme, toggleTheme }) {
         <a href="#home" className="navbar__brand" onClick={closeMenu}>
           <img
             className="navbar__logo"
-            src={theme === 'dark' ? '/darklogo.png' : '/lightlogo.png'}
+            src="/logo.png"
             alt="Kresai"
           />
+          <span className="navbar__brand-name">
+            <span className="navbar__brand-kreir">
+              {'KREIR'.split('').map((l, i) => <span key={i} className="brand-letter">{l}</span>)}
+            </span>
+            <span className="navbar__brand-ai">
+              {'AI'.split('').map((l, i) => <span key={i} className="brand-letter">{l}</span>)}
+            </span>
+            <span className="navbar__brand-si">
+              {'.si'.split('').map((l, i) => <span key={i} className="brand-letter">{l}</span>)}
+            </span>
+          </span>
         </a>
 
         <nav className="navbar__nav" aria-label="Primary">
@@ -65,6 +135,8 @@ export default function Navbar({ theme, toggleTheme }) {
         </nav>
 
         <div className="navbar__actions">
+          <LanguageDropdown />
+
           <button
             className="navbar__theme-btn"
             onClick={toggleTheme}

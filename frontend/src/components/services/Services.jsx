@@ -1,5 +1,7 @@
 import { useRef } from 'react';
 import { useIntersection } from '../../hooks/useIntersection';
+import { useLang } from '../../i18n/LangContext';
+import { t } from '../../i18n/translations';
 import ServicesGraph from './ServicesGraph';
 import { servicesData } from '../../data/servicesData';
 import './Services.css';
@@ -7,29 +9,30 @@ import './Services.css';
 export default function Services() {
   const ref = useRef(null);
   const visible = useIntersection(ref, { threshold: 0.1 });
+  const { lang } = useLang();
+  const s = t[lang].services;
+
+  const items = servicesData.map((svc, i) => ({ ...svc, ...s.items[i] }));
 
   return (
     <section className="services section-padding" id="services" ref={ref}>
       <div className="container">
         <div className={`services__header anim-fade-up ${visible ? 'visible' : ''}`}>
-          <div className="section-label">What We Offer</div>
+          <div className="section-label">{s.label}</div>
           <h2 className="services__heading">
-            Core <span className="gradient-text">AI Services</span>
+            {s.heading1} <span className="gradient-text">{s.heading2}</span>
           </h2>
-          <p className="services__subtext">
-            A full spectrum of intelligent solutions — engineered to integrate,
-            scale, and deliver measurable results.
-          </p>
+          <p className="services__subtext">{s.subtext}</p>
         </div>
 
         {/* Desktop: circular graph */}
         <div className={`services__graph-wrap anim-scale-in ${visible ? 'visible' : ''}`}>
-          <ServicesGraph />
+          <ServicesGraph data={items} />
         </div>
 
         {/* Mobile: card grid */}
         <div className="services__cards">
-          {servicesData.map((svc, i) => (
+          {items.map((svc, i) => (
             <div
               key={svc.id}
               className={`services__card anim-scale-in stagger-${Math.min(i + 1, 6)} ${visible ? 'visible' : ''}`}

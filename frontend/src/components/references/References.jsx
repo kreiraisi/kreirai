@@ -1,5 +1,7 @@
 import { useRef } from 'react';
 import { useIntersection } from '../../hooks/useIntersection';
+import { useLang } from '../../i18n/LangContext';
+import { t } from '../../i18n/translations';
 import './References.css';
 
 const referencesData = [
@@ -50,18 +52,18 @@ const referencesData = [
 export default function References() {
   const ref = useRef(null);
   const visible = useIntersection(ref, { threshold: 0.1 });
+  const { lang } = useLang();
+  const r = t[lang].references;
 
   return (
     <section className="references section-padding" id="references" ref={ref}>
       <div className="container">
         <div className={`references__header anim-fade-up ${visible ? 'visible' : ''}`}>
-          <div className="section-label">Our Work</div>
+          <div className="section-label">{r.label}</div>
           <h2 className="references__heading">
-            Featured <span className="gradient-text">References</span>
+            {r.heading1} <span className="gradient-text">{r.heading2}</span>
           </h2>
-          <p className="references__subtext">
-            Real-world solutions we've built — across industries, at scale.
-          </p>
+          <p className="references__subtext">{r.subtext}</p>
         </div>
 
         <div className="references__grid">

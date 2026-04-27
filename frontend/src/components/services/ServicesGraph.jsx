@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { servicesData } from '../../data/servicesData';
 import './ServicesGraph.css';
 
 const SIZE = 500;
@@ -58,7 +57,7 @@ const ServiceIcons = {
   ),
 };
 
-export default function ServicesGraph() {
+export default function ServicesGraph({ data: servicesData }) {
   const [hovered, setHovered] = useState(null);
 
   return (

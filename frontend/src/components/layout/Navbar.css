@@ -31,7 +31,6 @@
   flex-shrink: 0;
   text-decoration: none;
   position: relative;
-  animation: logoFloat 5s ease-in-out infinite;
 }
 
 /* Glow bloom beneath logo */
@@ -47,24 +46,67 @@
   filter: blur(8px);
   border-radius: 50%;
   pointer-events: none;
-  animation: logoGlowBloom 3s ease-in-out infinite;
 }
 
 /* ─── Logo image ──────────────────────────────────────────── */
 .navbar__logo {
-  height: 64px;
-  width: auto;
+  height: 52px;
+  width: 52px;
   object-fit: contain;
   display: block;
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
   filter: drop-shadow(0 0 6px rgba(155,47,255,0.45)) drop-shadow(0 0 14px rgba(255,32,128,0.25));
   transition: transform 0.35s ease, filter 0.35s ease;
+  flex-shrink: 0;
 }
 
-.navbar__brand:hover .navbar__logo {
-  transform: scale(1.12);
-  filter: drop-shadow(0 0 18px rgba(155,47,255,1)) drop-shadow(0 0 36px rgba(255,32,128,0.7)) drop-shadow(0 0 60px rgba(45,143,255,0.4));
+
+/* ─── Brand wordmark ──────────────────────────────────────── */
+.navbar__brand-name {
+  display: inline-flex;
+  align-items: baseline;
+  margin-left: 5px;
+  font-family: var(--font-heading);
+  line-height: 1;
+  letter-spacing: 0.06em;
+  gap: 1px;
+}
+
+.navbar__brand-kreir {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  border-bottom: 1.5px solid rgba(255, 45, 160, 0.65);
+  padding-bottom: 1px;
+}
+
+.navbar__brand-ai {
+  font-size: 1.38rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  background: linear-gradient(90deg, #ff2da0 0%, #5b6cff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.navbar__brand-si {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.01em;
+  opacity: 0.75;
+  border-bottom: 1.5px solid rgba(91, 108, 255, 0.55);
+  padding-bottom: 1px;
+  align-self: flex-end;
+  margin-bottom: 1px;
+}
+
+.brand-letter {
+  display: inline-block;
 }
 
 /* Desktop nav */
@@ -110,6 +152,124 @@
   align-items: center;
   gap: 12px;
   flex-shrink: 0;
+}
+
+/* ─── Language dropdown ──────────────────────────────────── */
+.lang-dropdown {
+  position: relative;
+}
+
+.lang-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: 38px;
+  padding: 0 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  transition: color var(--transition), border-color var(--transition), background var(--transition);
+  white-space: nowrap;
+}
+
+.lang-btn:hover {
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+}
+
+.lang-btn__flag {
+  width: 20px;
+  height: 15px;
+  object-fit: cover;
+  border-radius: 2px;
+  display: block;
+  flex-shrink: 0;
+}
+
+.lang-btn__code {
+  font-size: 0.75rem;
+}
+
+.lang-btn__arrow {
+  transition: transform 0.2s ease;
+  opacity: 0.6;
+}
+
+.lang-btn__arrow.open {
+  transform: rotate(180deg);
+}
+
+.lang-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  min-width: 168px;
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-6px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 12px 36px rgba(0,0,0,0.35);
+}
+
+.lang-panel.open {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+
+.lang-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: none;
+  border: none;
+  text-align: left;
+  transition: background var(--transition), color var(--transition);
+  cursor: pointer;
+}
+
+.lang-option:hover {
+  background: var(--surface-hover);
+  color: var(--text-primary);
+}
+
+.lang-option.active {
+  color: var(--grad-mid);
+}
+
+.lang-option__flag {
+  width: 20px;
+  height: 15px;
+  object-fit: cover;
+  border-radius: 2px;
+  display: block;
+  flex-shrink: 0;
+}
+
+.lang-option__code {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  opacity: 0.6;
+  min-width: 24px;
+}
+
+.lang-option__label {
+  flex: 1;
 }
 
 .navbar__theme-btn {
@@ -213,8 +373,13 @@
     display: flex;
   }
   .navbar__logo {
-    height: 48px;
+    height: 44px;
+    width: 44px;
   }
+  .navbar__brand-name  { margin-left: 4px; gap: 1px; }
+  .navbar__brand-kreir { font-size: 0.9rem; }
+  .navbar__brand-ai    { font-size: 1.15rem; }
+  .navbar__brand-si    { font-size: 0.75rem; }
   .navbar__mobile-link {
     font-size: 1.05rem;
     padding: 16px 0;
@@ -226,8 +391,13 @@
 
 @media (max-width: 480px) {
   .navbar__logo {
-    height: 42px;
+    height: 40px;
+    width: 40px;
   }
+  .navbar__brand-name  { margin-left: 4px; gap: 0; }
+  .navbar__brand-kreir { font-size: 0.82rem; }
+  .navbar__brand-ai    { font-size: 1rem; }
+  .navbar__brand-si    { font-size: 0.68rem; }
   .navbar__mobile-nav {
     padding: 1rem 1.25rem;
   }

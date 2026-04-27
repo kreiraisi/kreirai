@@ -279,13 +279,14 @@
 @media (max-width: 768px) {
   .hero {
     min-height: auto;
-    padding-top: calc(var(--navbar-height) + 20px);
+    padding-top: calc(var(--navbar-height) + 130px) !important;
     padding-bottom: 56px;
+    overflow-x: hidden;
   }
 
   .hero__grid {
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: 2.5rem;
     text-align: center;
   }
 
@@ -314,6 +315,7 @@
   .hero__visual {
     height: 300px;
     width: 100%;
+    overflow: hidden;
   }
 
   .hero__orb--1 { width: 140px; height: 140px; }
@@ -336,6 +338,7 @@
 }
 
 @media (max-width: 480px) {
+  .hero { padding-top: calc(var(--navbar-height) + 110px) !important; }
   .hero__visual { height: 260px; }
   .hero__card--secondary { display: none; }
   .hero__card--main     { top: 8%;    right: 3%; }

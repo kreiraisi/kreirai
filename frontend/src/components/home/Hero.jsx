@@ -1,14 +1,17 @@
 import { useRef } from 'react';
 import { useIntersection } from '../../hooks/useIntersection';
+import { useLang } from '../../i18n/LangContext';
+import { t } from '../../i18n/translations';
 import './Hero.css';
 
 export default function Hero() {
   const ref = useRef(null);
   const visible = useIntersection(ref, { threshold: 0.15 });
+  const { lang } = useLang();
+  const h = t[lang].hero;
 
   return (
     <section className="hero section-padding" id="home" ref={ref}>
-      {/* Background ambient glow */}
       <div className="hero__bg-glow hero__bg-glow--pink" />
       <div className="hero__bg-glow hero__bg-glow--purple" />
 
@@ -16,46 +19,45 @@ export default function Hero() {
         {/* Left: Text */}
         <div className="hero__text">
           <div className={`section-label anim-fade-up stagger-1 ${visible ? 'visible' : ''}`}>
-            AI &amp; Digital Solutions
+            {h.label}
           </div>
 
           <h1 className={`hero__heading anim-fade-up stagger-2 ${visible ? 'visible' : ''}`}>
-            We Build<br />
-            <span className="gradient-text">Intelligent</span> Systems
+            {h.heading1}<br />
+            <span className="gradient-text">{h.heading2}</span>
           </h1>
 
           <p className={`hero__subtext anim-fade-up stagger-3 ${visible ? 'visible' : ''}`}>
-            Empowering businesses with AI-driven solutions that transform
-            raw data into competitive advantage — fast, scalable, and precise.
+            {h.subtext}
           </p>
 
           <div className={`hero__cta anim-fade-up stagger-4 ${visible ? 'visible' : ''}`}>
             <a href="#services" className="btn-primary">
-              Explore Services
+              {h.cta}
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                 <line x1="5" y1="12" x2="19" y2="12"/>
                 <polyline points="12 5 19 12 12 19"/>
               </svg>
             </a>
             <a href="#about" className="hero__link">
-              Learn More
+              {h.ctaLearn}
             </a>
           </div>
 
           <div className={`hero__stats anim-fade-up stagger-5 ${visible ? 'visible' : ''}`}>
             <div className="hero__stat">
               <span className="hero__stat-num gradient-text">100+</span>
-              <span className="hero__stat-label">Projects</span>
+              <span className="hero__stat-label">{h.stat1}</span>
             </div>
             <div className="hero__stat-divider" />
             <div className="hero__stat">
               <span className="hero__stat-num gradient-text">50+</span>
-              <span className="hero__stat-label">Clients</span>
+              <span className="hero__stat-label">{h.stat2}</span>
             </div>
             <div className="hero__stat-divider" />
             <div className="hero__stat">
               <span className="hero__stat-num gradient-text">99%</span>
-              <span className="hero__stat-label">Satisfaction</span>
+              <span className="hero__stat-label">{h.stat3}</span>
             </div>
           </div>
         </div>
@@ -100,7 +102,6 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Scroll indicator */}
       <div className="hero__scroll">
         <div className="hero__scroll-line" />
         <span>Scroll</span>
