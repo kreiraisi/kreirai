@@ -10,9 +10,7 @@ function App() {
         </div>
         <h1 className="tagline">
           <span>Kreativno.</span>
-          <span className="dot" aria-hidden>•</span>
           <span>Pametno.</span>
-          <span className="dot" aria-hidden>•</span>
           <span className="accent">AI.</span>
         </h1>
       </div>
