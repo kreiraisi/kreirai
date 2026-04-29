@@ -1,37 +1,23 @@
-import { useState, useEffect } from 'react';
-import { LangProvider } from './i18n/LangContext';
-import Navbar from './components/layout/Navbar';
-import Footer from './components/layout/Footer';
-import Hero from './components/home/Hero';
-import About from './components/about/About';
-import Services from './components/services/Services';
-import References from './components/references/References';
-import './styles/global.css';
-import './App.css';
+import './App.css'
+import logo from './assets/logo.png'
 
 function App() {
-  const [theme, setTheme] = useState('dark');
-
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-  }, [theme]);
-
-  const toggleTheme = () => setTheme(t => t === 'dark' ? 'light' : 'dark');
-
   return (
-    <LangProvider>
-      <div className="app">
-        <Navbar theme={theme} toggleTheme={toggleTheme} />
-        <main>
-          <Hero />
-          <About />
-          <Services />
-          <References />
-        </main>
-        <Footer />
+    <main className="page">
+      <div className="content">
+        <div className="logo-wrap">
+          <img src={logo} alt="kreirai" className="logo" />
+        </div>
+        <h1 className="tagline">
+          <span>Kreativno.</span>
+          <span className="dot" aria-hidden>•</span>
+          <span>Pametno.</span>
+          <span className="dot" aria-hidden>•</span>
+          <span className="accent">AI.</span>
+        </h1>
       </div>
-    </LangProvider>
-  );
+    </main>
+  )
 }
 
-export default App;
+export default App
