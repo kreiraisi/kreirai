@@ -14,6 +14,10 @@ function App() {
           <span className="accent">AI.</span>
         </h1>
       </div>
+      
+      <footer className="contact">
+        <a href="mailto:info@kreirai.si">info@kreirai.si</a>
+      </footer>
     </main>
   )
 }
