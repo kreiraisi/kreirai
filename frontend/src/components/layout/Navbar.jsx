@@ -7,8 +7,6 @@ import './Navbar.css';
 const LANGS = [
   { code: 'en', flagCode: 'gb', label: 'English' },
   { code: 'sl', flagCode: 'si', label: 'Slovenščina' },
-  { code: 'de', flagCode: 'de', label: 'Deutsch' },
-  { code: 'hr', flagCode: 'hr', label: 'Hrvatski' },
 ];
 
 const SunIcon = () => (
@@ -110,8 +108,8 @@ export default function Navbar({ theme, toggleTheme }) {
         <a href="#home" className="navbar__brand" onClick={closeMenu}>
           <img
             className="navbar__logo"
-            src="/logo.png"
-            alt="Kresai"
+            src="/logo-tmp.png"
+            alt="kreirAI.si"
           />
           <span className="navbar__brand-name">
             <span className="navbar__brand-kreir">
